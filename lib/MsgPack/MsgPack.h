@@ -1,10 +1,9 @@
 #pragma once
 
+#define ARDUINOJSON_USE_DOUBLE 1
+
 #include <Arduino.h>
 #include <ArduinoJson.h>
-
-// Serial bitrate (14.4Kbps)
-#define SERIAL_BAUD 115200
 
 // JSON message constants
 #define MSG_KEY_CURRENT F("i")
@@ -25,9 +24,13 @@
 #define DEBUG_MSG_UNKNOWN_COMMAND F("Unknown command!")
 
 // see https://arduinojson.org/v6/assistant/ for estimates
-#define JSON_BUFFER_SIZE 64
-#define JSON_BUFFER_SIZE_DEBUG 96
+#define JSON_BUFFER_SIZE_READINGS 64
+#define JSON_BUFFER_SIZE_MESSAGE 96
 #define JSON_BUFFER_SIZE_COMMAND 128
+
+using CommandDocument = StaticJsonDocument<JSON_BUFFER_SIZE_COMMAND>;
+using MessageDocument = StaticJsonDocument<JSON_BUFFER_SIZE_MESSAGE>;
+using ReadingsDocument = StaticJsonDocument<JSON_BUFFER_SIZE_READINGS>;
 
 struct Readings {
   double timestamp = 0;
@@ -36,12 +39,7 @@ struct Readings {
   double power = 0;
 };
 
-enum Command {
-  None,
-  Setup,
-  Start,
-  Stop
-};
+enum Command { None, Setup, Start, Stop };
 
 struct CommandMessage {
   Command command = Command::None;
@@ -52,4 +50,11 @@ struct MsgPack {
   static void sendReadings(const Readings readings, Stream& dest);
   static void sendDebugMessage(const String message, Stream& dest);
   static bool readCommandMessage(CommandMessage* message, Stream& src);
+  static bool readCommandMessage(CommandMessage* message,
+                                 const uint8_t* payload);
+  static size_t writeReadings(const Readings readings, uint8_t* payload);
+  static size_t writeDebugMessage(const String message, uint8_t* payload);
+
+ private:
+  static bool readCommandMessage(CommandMessage* message, CommandDocument doc);
 };
