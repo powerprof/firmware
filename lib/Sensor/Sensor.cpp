@@ -9,7 +9,13 @@ double Sensor::fromMillis(double value) { return value * 1e-3; }
 
 double Sensor::fromMicros(double value) { return value * 1e-6; }
 
+#ifdef ARDUINO_ESP8266_WEMOS_D1MINI
+void IRAM_ATTR Sensor::handler() {
+#else
 void Sensor::handler() {
+#endif
+  MsgPack::sendDebugMessage("Alert", Serial);
+
   if (alerted) {
     return MsgPack::sendDebugMessage(DEBUG_MSG_BUFFER_OVERFLOW, Serial);
   }
@@ -81,6 +87,7 @@ void Sensor::stop() {
 
 bool Sensor::read(Readings* readings) {
   if (!ready || !active || !alerted) {
+    MsgPack::sendDebugMessage("Read False", Serial);
     return false;
   }
 
