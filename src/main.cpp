@@ -27,9 +27,6 @@ void loop() {
     POWER_ON_RESET();
   }
 
-  // Toggle LED on and off
-  Blinkenlight::update();
-
   // Check for commands, update sensor state
   if (Serial.available() > 0) {
     auto command = CommandMessage();
@@ -51,5 +48,8 @@ void loop() {
   auto readings = Readings();
   if (Sensor::read(&readings)) {
     MsgPack::sendReadings(readings, Serial);
+
+    // Toggle LED on and off
+    Blinkenlight::update();
   }
 }
