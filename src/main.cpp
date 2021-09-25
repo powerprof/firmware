@@ -8,12 +8,9 @@ void setup() {
   Blinkenlight::init();
 
   // Initialize Serial output and log hardware info
-  // Configure serial port
   Serial.begin(SERIAL_BAUD);
-
-  // Wait until serial port is opened
   while (!Serial) {
-    delay(10);
+    delay(100);
   }
   MsgPack::sendDebugMessage(DEBUG_MSG_APP_ID, Serial);
 
