@@ -2,7 +2,12 @@
 
 #include <Arduino.h>
 
+#if defined(ARDUINO_TEENSY36)
 #define LED_PIN 13
+#elif defined(ARDUINO_ESP8266_WEMOS_D1MINI)
+#define LED_PIN LED_BUILTIN
+#endif
+
 #define LED_BLINK_INTERVAL 500
 
 class Counter {
