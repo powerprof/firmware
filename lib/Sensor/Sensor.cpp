@@ -57,13 +57,6 @@ void Sensor::init() {
   // Set alert and latch options
   sensor.setAlertType(INA260_ALERT_TYPE);
   sensor.setAlertLatch(INA260_ALERT_LATCH);
-
-  // Clear any pending alerts
-  sensor.MaskEnable->read();
-
-  // Enable alert on "Conversion Ready"
-  sensor.MaskEnable->write(INA260_CONVERSION_MASK);
-
   configure(INA260_DEFAULT_SAMPLE_RATE);
 }
 
@@ -81,6 +74,13 @@ void Sensor::start() {
 
   // Attach ISR to "alert" pin from the INA260 to handle reading of the data
   attachInterrupt(ALERT_INTERRUPT, handler, FALLING);
+
+  // Clear any pending alerts
+  sensor.MaskEnable->read();
+
+  // Enable alert on "Conversion Ready"
+  sensor.MaskEnable->write(INA260_CONVERSION_MASK);
+
   active = true;
 }
 
