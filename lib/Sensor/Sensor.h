@@ -3,6 +3,7 @@
 #include <Adafruit_INA260.h>
 #include <Arduino.h>
 
+#include "Blinkenlight.h"
 #include "MsgPack.h"
 
 #define INA260_ALERT_LATCH INA260_ALERT_LATCH_ENABLED

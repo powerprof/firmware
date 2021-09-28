@@ -91,6 +91,9 @@ void Sensor::stop() {
 
   // Detach interrupt to prevent spurious data transmission
   detachInterrupt(ALERT_INTERRUPT);
+
+  Blinkenlight::init();
+
   active = false;
 }
 
