@@ -10,8 +10,9 @@
 // ideally 8.92ms between alerts (~112Hz)
 #define INA260_AVG_COUNT INA260_COUNT_16
 #define INA260_CONVERSION_TIME INA260_TIME_558_us
+#define INA260_CONVERSION_MASK 0x400
 // in Hz
-#define INA260_DEFAULT_SAMPLE_RATE 100
+#define INA260_DEFAULT_SAMPLE_RATE 110
 // 400 kbit/s
 #define INA260_I2C_BUS_SPEED 4e5
 // 2 mbit/s
@@ -25,7 +26,7 @@
 
 // Function to trigger ARM power on reset
 #if defined(ARDUINO_TEENSY36)
-#define ALERT_PIN 21
+#define ALERT_PIN A7
 
 #define RESTART_ADDR 0xE000ED0C
 #define RESTART_VAL 0x5FA0004
@@ -46,6 +47,7 @@ class Sensor {
   static bool ready;
   static bool active;
   static volatile bool alerted;
+  static volatile bool overflowed;
   static double fromMillis(double value);
   static double fromMicros(double value);
   static void handler();

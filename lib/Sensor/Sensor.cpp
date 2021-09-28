@@ -4,6 +4,7 @@ Adafruit_INA260 Sensor::sensor = Adafruit_INA260();
 bool Sensor::ready = false;
 bool Sensor::active = false;
 volatile bool Sensor::alerted = false;
+volatile bool Sensor::overflowed = false;
 
 double Sensor::fromMillis(double value) { return value * 1e-3; }
 
@@ -14,10 +15,11 @@ void IRAM_ATTR Sensor::handler() {
 #else
 void Sensor::handler() {
 #endif
-  MsgPack::sendDebugMessage("Alert", Serial);
-
   if (alerted) {
-    return MsgPack::sendDebugMessage(DEBUG_MSG_BUFFER_OVERFLOW, Serial);
+    overflowed = true;
+    return;
+  } else {
+    overflowed = false;
   }
 
   // Signal alert
@@ -55,6 +57,13 @@ void Sensor::init() {
   // Set alert and latch options
   sensor.setAlertType(INA260_ALERT_TYPE);
   sensor.setAlertLatch(INA260_ALERT_LATCH);
+
+  // Clear any pending alerts
+  sensor.MaskEnable->read();
+
+  // Enable alert on "Conversion Ready"
+  sensor.MaskEnable->write(INA260_CONVERSION_MASK);
+
   configure(INA260_DEFAULT_SAMPLE_RATE);
 }
 
@@ -87,7 +96,6 @@ void Sensor::stop() {
 
 bool Sensor::read(Readings* readings) {
   if (!ready || !active || !alerted) {
-    MsgPack::sendDebugMessage("Read False", Serial);
     return false;
   }
 
