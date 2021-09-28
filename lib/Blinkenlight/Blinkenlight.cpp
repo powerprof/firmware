@@ -2,7 +2,7 @@
 
 void Blinkenlight::init() {
   pinMode(LED_PIN, OUTPUT);
-  digitalWrite(LED_PIN, HIGH);
+  digitalWrite(LED_PIN, LED_ON_STATE);
 }
 
 void Blinkenlight::update() {
