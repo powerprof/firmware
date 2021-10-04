@@ -33,12 +33,14 @@
 #define RESTART_VAL 0x5FA0004
 
 #define POWER_ON_RESET() ((*(volatile uint32_t*)RESTART_ADDR) = (RESTART_VAL))
-#elif defined(ARDUINO_ESP8266_WEMOS_D1MINI)
+#elif defined(ESP8266) || defined(ESP32)
+#if defined(ESP8266)
 #define ALERT_PIN D0
+#else
+#define ALERT_PIN 34
+#endif
 
-#define POWER_ON_RESET() \
-  ESP.restart();         \
-  ESP.reset();
+#define POWER_ON_RESET() ESP.restart();
 #endif
 
 #define ALERT_INTERRUPT digitalPinToInterrupt(ALERT_PIN)

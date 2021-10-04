@@ -5,9 +5,12 @@
 #if defined(ARDUINO_TEENSY36)
 #define LED_PIN 13
 #define LED_ON_STATE HIGH
-#elif defined(ARDUINO_ESP8266_WEMOS_D1MINI)
+#elif defined(ESP8266)
 #define LED_PIN LED_BUILTIN
 #define LED_ON_STATE LOW
+#elif defined(ESP32)
+#define LED_PIN 2
+#define LED_ON_STATE HIGH
 #endif
 
 #define LED_BLINK_INTERVAL 500
