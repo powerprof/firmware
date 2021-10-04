@@ -23,9 +23,9 @@ void setup() {
  */
 void loop() {
   // Reboot if we lost serial connection.
-  if (!Serial) {
-    POWER_ON_RESET();
-  }
+  // if (!Serial) {
+  //   POWER_ON_RESET();
+  // }
 
   // Check for commands, update sensor state
   if (Serial.available() > 0) {
