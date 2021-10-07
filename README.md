@@ -40,7 +40,7 @@ PowerProf supports three communications protocols to provide ultimate flexibilit
 
 ### USB
 
-When using USB as the communication protocol, the device waits for a serial connection after initializing itself. Once the connection is established, it waits for commands from the host.
+When using USB as the communication protocol, the device waits for a serial connection after initializing itself. Once the connection is established, it waits for commands from the host. The Teensy uses `2000000` (2MBit/s) as the baud rate, while the LOLIN boards use `1000000` (1MBit/s).
 
 ### WiFi
 
@@ -64,6 +64,18 @@ Commands are sent as JSON objects encoded with MsgPack. An example command would
 This command would change the sampling rate to 500Hz.
 
 There are currently three commands - `start`, `stop`, and `setup`. Only `setup` requires additional parameters.
+
+### Start
+
+The start command will tell the INA260 to start sending measurement data over the configured communication procotol. If the device is already sending data, this command has no effect.
+
+### Stop
+
+The stop command will tell the INA260 to stop sending measurement data over the configured communication protocol. If the device is not sending data, this command has no effect.
+
+## Setup
+
+The setup command changes parameters related to data acquisition. Currently, only the `sampleRate` parameter is supported. It is an integer value in Hertz which will be used to adjust the timing/averaging functions of the INA260. You should not send the setup command if the device is sending data.
 
 ## Known Issues
 
