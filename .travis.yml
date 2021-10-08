@@ -20,8 +20,8 @@ deploy:
   token: $GITHUB_TOKEN
   file:
     - "teensy.hex"
-    - "d1_mini.hex"
-    - "d32.hex"
+    - "d1_mini.bin"
+    - "d32.bin"
   cleanup: false
   on:
     tags: true
