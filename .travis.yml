@@ -12,8 +12,8 @@ script:
   - pio run
 before_deploy:
   - "cp .pio/build/teensy/firmware.hex teensy.hex"
-  - "cp .pio/build/d1_mini/firmware.hex d1_mini.hex"
-  - "cp .pio/build/d32/firmware.hex d32.hex"
+  - "cp .pio/build/d1_mini/firmware.bin d1_mini.bin"
+  - "cp .pio/build/d32/firmware.bin d32.bin"
 deploy:
   provider: releases
   edge: true
