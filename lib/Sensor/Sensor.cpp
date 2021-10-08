@@ -10,7 +10,7 @@ double Sensor::fromMillis(double value) { return value * 1e-3; }
 
 double Sensor::fromMicros(double value) { return value * 1e-6; }
 
-#ifdef ARDUINO_ESP8266_WEMOS_D1MINI
+#if defined(ESP8266) || defined(ESP32)
 void IRAM_ATTR Sensor::handler() {
 #else
 void Sensor::handler() {

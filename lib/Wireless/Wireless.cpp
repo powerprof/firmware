@@ -1,6 +1,6 @@
 #include "Wireless.h"
 
-#ifdef ARDUINO_ESP8266_WEMOS_D1MINI
+#if defined(ESP8266)
 
 void Wireless::init() {
   multi = ESP8266WiFiMulti();

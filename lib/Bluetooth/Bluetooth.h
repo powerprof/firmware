@@ -1,5 +1,7 @@
 #pragma once
 
+#if defined(ESP32)
+
 #include <BLE2902.h>
 #include <BLEDevice.h>
 #include <BLEServer.h>
@@ -27,3 +29,5 @@ class Bluetooth {
   static bool connected();
   static void update(Readings *readings);
 };
+
+#endif

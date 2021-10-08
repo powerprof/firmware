@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef ARDUINO_ESP8266_WEMOS_D1MINI
+#if defined(ESP8266)
 
 #define WIRELESS_SSID "bar"
 #define WIRELESS_PSK "wi9NNYara"

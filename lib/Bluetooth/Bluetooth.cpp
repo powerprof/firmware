@@ -1,4 +1,6 @@
-#include <Bluetooth.h>
+#include "Bluetooth.h"
+
+#if defined(ESP32)
 
 void Bluetooth::init() {
   BLEDevice::init(BLE_DEVICE_NAME);
@@ -44,3 +46,5 @@ void Bluetooth::update(Readings* readings) {
   characteristics->getByHandle(BLE_POWER_CHAR_HANDLE)
       ->setValue(readings->power);
 }
+
+#endif
