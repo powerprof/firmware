@@ -1,7 +1,6 @@
 language: python
 python:
   - "3.9"
-sudo: false
 cache:
   directories:
     - "~/.platformio"
@@ -11,17 +10,18 @@ install:
   - pio update
 script:
   - pio run
+before_deploy:
+  - "cp .pio/build/teensy/firmware.hex teensy.hex"
+  - "cp .pio/build/d1_mini/firmware.hex d1_mini.hex"
+  - "cp .pio/build/d32/firmware.hex d32.hex"
 deploy:
   provider: releases
-  api_key: $GITHUB_TOKEN
-  before_deploy:
-    - "cp .pio/build/teensy/firmware.hex teensy.hex"
-    - "cp .pio/build/d1_mini/firmware.hex d1_mini.hex"
-    - "cp .pio/build/d32/firmware.hex d32.hex"
+  edge: true
+  token: $GITHUB_TOKEN
   file:
     - "teensy.hex"
     - "d1_mini.hex"
     - "d32.hex"
-  skip_cleanup: true
+  cleanup: false
   on:
     tags: true
