@@ -5,6 +5,7 @@
 #include <BLE2902.h>
 #include <BLEDevice.h>
 #include <BLEServer.h>
+#include <BluetoothSerial.h>
 #include <MsgPack.h>
 
 #define BLE_DEVICE_NAME "PowerProf"
@@ -19,15 +20,18 @@
 #define BLE_POWER_CHAR_UUID "19e391c5-e3bd-438d-973f-6b8283f993c9"
 
 class Bluetooth {
-  static BLEAdvertising *advertiser;
-  static BLEServer *server;
-  static BLEService *service;
-  static BLECharacteristicMap *characteristics;
+  static BluetoothSerial *serialPort;
+  // static BLEAdvertising *advertiser;
+  // static BLEServer *server;
+  // static BLEService *service;
+  // static BLECharacteristicMap *characteristics;
 
  public:
   static void init();
-  static bool connected();
-  static void update(Readings *readings);
+  // static bool connected();
+  // static void update(Readings *readings);
+  static bool readCommandMessage(CommandMessage *message);
+  static void writeReadings(const Readings readings);
 };
 
 #endif

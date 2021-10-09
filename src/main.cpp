@@ -7,12 +7,19 @@ void setup() {
   // Initialize the LED
   Blinkenlight::init();
 
-  // Initialize Serial output and log hardware info
-  Serial.begin(SERIAL_BAUD);
-  while (!Serial) {
-    delay(100);
-  }
-  MsgPack::sendDebugMessage(DEBUG_MSG_APP_ID, Serial);
+  // Initialize Serial output and log hardware info.
+#if defined(ARDUINO_TEENSY)
+  Usb::init(true);
+#else
+  Usb::init(false);
+#endif
+
+  // Initialize WiFi and/or Bluetooth on compatible devices.
+#if defined(ESP8266)
+  Wireless::init();
+#elif defined(ESP32)
+  Bluetooth::init();
+#endif
 
   // Initialize the INA260
   Sensor::init();
@@ -22,26 +29,20 @@ void setup() {
  * Check for fatal errors and send readings when they are avaialble.
  */
 void loop() {
-  // Reboot if we lost serial connection.
-  // if (!Serial) {
-  //   POWER_ON_RESET();
-  // }
+  // Check for commands, execute if one is waiting.
+  auto command = CommandMessage();
+  bool commandReceived = false;
 
-  // Check for commands, update sensor state
-  if (Serial.available() > 0) {
-    auto command = CommandMessage();
-    if (MsgPack::readCommandMessage(&command, Serial)) {
-      switch (command.command) {
-        case Command::Setup:
-          return Sensor::configure(command.sampleRate);
-        case Command::Start:
-          return Sensor::start();
-        case Command::Stop:
-          return Sensor::stop();
-        case Command::None:
-          return;
-      }
-    }
+#if defined(ESP8266)
+  commandReceived = Wireless::readCommandMessage(&command);
+#elif defined(ESP32)
+  commandReceived = Bluetooth::readCommandMessage(&command);
+#elif defined(ARDUINO_TEENSY)
+  commandReceived = Usb::readCommandMessage(&command);
+#endif
+
+  if (commandReceived) {
+    Sensor::executeCommandMessage(command);
   }
 
   // Check for alerts, send data over serial if available.

@@ -57,8 +57,9 @@ class Sensor {
 
  public:
   static void init();
-  static void configure(uint32_t sampleRate);
+  static void setup(uint32_t sampleRate);
   static void start();
   static void stop();
   static bool read(Readings* readings);
+  static void executeCommandMessage(const CommandMessage message);
 };

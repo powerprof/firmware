@@ -57,10 +57,10 @@ void Sensor::init() {
   // Set alert and latch options
   sensor.setAlertType(INA260_ALERT_TYPE);
   sensor.setAlertLatch(INA260_ALERT_LATCH);
-  configure(INA260_DEFAULT_SAMPLE_RATE);
+  setup(INA260_DEFAULT_SAMPLE_RATE);
 }
 
-void Sensor::configure(uint32_t sampleRate) {
+void Sensor::setup(uint32_t sampleRate) {
   // Set sample rate parameters
   sensor.setVoltageConversionTime(INA260_CONVERSION_TIME);
   sensor.setCurrentConversionTime(INA260_CONVERSION_TIME);
@@ -110,4 +110,18 @@ bool Sensor::read(Readings* readings) {
   alerted = false;
 
   return true;
+}
+
+void Sensor::executeCommandMessage(const CommandMessage message) {
+  switch (message.command) {
+    case Command::Setup:
+      return Sensor::setup(message.sampleRate);
+    case Command::Start:
+      return Sensor::start();
+    case Command::Stop:
+      return Sensor::stop();
+    case Command::None:
+    default:
+      return;
+  }
 }

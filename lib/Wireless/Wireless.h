@@ -22,6 +22,7 @@ class Wireless {
   static void handler(uint8_t num, WStype_t type, uint8_t* payload,
                       size_t length);
   static void init();
+  static bool readCommandMessage(CommandMessage* message);
 };
 
 #endif
