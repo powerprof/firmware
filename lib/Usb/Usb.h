@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Arduino.h>
-#include <Sensor.h>
+#include <MsgPack.h>
 
 #if defined(ARDUINO_TEENSY)
 #define SERIAL_BAUD 2e6  // 2MBit/s
