@@ -3,14 +3,16 @@
 #include <Adafruit_INA260.h>
 #include <Arduino.h>
 
+#include <map>
+
 #include "Blinkenlight.h"
 #include "MsgPack.h"
 
 #define INA260_ALERT_LATCH INA260_ALERT_LATCH_ENABLED
 #define INA260_ALERT_TYPE INA260_ALERT_CONVERSION_READY
 // ideally 8.92ms between alerts (~112Hz)
-#define INA260_AVG_COUNT INA260_COUNT_16
-#define INA260_CONVERSION_TIME INA260_TIME_558_us
+// #define INA260_AVG_COUNT INA260_COUNT_16
+// #define INA260_CONVERSION_TIME INA260_TIME_558_us
 #define INA260_CONVERSION_MASK 0x400
 // in Hz
 #define INA260_DEFAULT_SAMPLE_RATE 110
