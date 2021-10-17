@@ -67,7 +67,9 @@ void Sensor::init() {
   // Set alert and latch options
   sensor.setAlertType(INA260_ALERT_TYPE);
   sensor.setAlertLatch(INA260_ALERT_LATCH);
-  setup(INA260_DEFAULT_SAMPLE_RATE);
+  sensor.setVoltageConversionTime(INA260_DEFAULT_CONVERSION_TIME);
+  sensor.setCurrentConversionTime(INA260_DEFAULT_CONVERSION_TIME);
+  sensor.setAveragingCount(INA260_DEFAULT_AVERAGE_COUNT);
 }
 
 void Sensor::setup(uint32_t sampleRate) {
