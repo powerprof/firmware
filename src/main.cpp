@@ -32,19 +32,26 @@ void setup() {
 void loop() {
   // Check for commands, execute if one is waiting.
   auto command = CommandMessage();
-  bool commandReceived = false;
+  auto commandReceived = false;
 
-#if defined(ESP8266)
-  commandReceived = Wireless::readCommandMessage(&command);
-#elif defined(ESP32)
-  commandReceived = Bluetooth::readCommandMessage(&command);
-#elif defined(ARDUINO_TEENSY)
   commandReceived = Usb::readCommandMessage(&command);
-#endif
-
   if (commandReceived) {
     Sensor::executeCommandMessage(command);
   }
+
+#if defined(ESP8266) || defined(ESP32)
+  commandReceived = Wireless::readCommandMessage(&command);
+  if (commandReceived) {
+    Sensor::executeCommandMessage(command);
+  }
+#endif
+
+#if defined(ESP32)
+  commandReceived = Bluetooth::readCommandMessage(&command);
+  if (commandReceived) {
+    Sensor::executeCommandMessage(command);
+  }
+#endif
 
   // Check for alerts, send data over serial if available.
   auto readings = Readings();
