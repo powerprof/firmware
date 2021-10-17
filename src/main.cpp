@@ -18,6 +18,7 @@ void setup() {
 #if defined(ESP8266)
   Wireless::init();
 #elif defined(ESP32)
+  Wireless::init();
   Bluetooth::init();
 #endif
 

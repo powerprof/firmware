@@ -1,10 +1,16 @@
 #include "Wireless.h"
 
+#if defined(ESP8266) || defined(ESP32)
+
 #if defined(ESP8266)
+ESP8266WiFiMulti Wireless::multi = ESP8266WiFiMulti();
+#elif defined(ESP32)
+WiFiMulti Wireless::multi = WiFiMulti();
+#endif
+
+WebSocketsServer Wireless::server = WebSocketsServer(WEBSOCKET_PORT);
 
 void Wireless::init() {
-  multi = ESP8266WiFiMulti();
-  server = WebSocketsServer(WEBSOCKET_PORT);
   multi.addAP(WIRELESS_SSID, WIRELESS_PSK);
 
   while (multi.run() != WL_CONNECTED) {
@@ -17,5 +23,7 @@ void Wireless::init() {
 
 void Wireless::handler(uint8_t num, WStype_t type, uint8_t* payload,
                        size_t length) {}
+
+bool Wireless::readCommandMessage(CommandMessage* message) { return false; }
 
 #endif
