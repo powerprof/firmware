@@ -67,18 +67,25 @@ void Sensor::init() {
   // Set alert and latch options
   sensor.setAlertType(INA260_ALERT_TYPE);
   sensor.setAlertLatch(INA260_ALERT_LATCH);
+  // Set default sample rate
   sensor.setVoltageConversionTime(INA260_DEFAULT_CONVERSION_TIME);
   sensor.setCurrentConversionTime(INA260_DEFAULT_CONVERSION_TIME);
   sensor.setAveragingCount(INA260_DEFAULT_AVERAGE_COUNT);
 }
 
 void Sensor::setup(uint32_t sampleRate) {
+  if (active) {
+    return;
+  }
+
   uint32_t clamped =
       min(max(sampleRate, INA260_MAX_SAMPLE_RATE), INA260_MIN_SAMPLE_RATE);
   float targetTimeMs = (1.0 / clamped) * 1e3;
-  float lowestDifference = 1e6;
   INA260_ConversionTime selectedTime = INA260_DEFAULT_CONVERSION_TIME;
   INA260_AveragingCount selectedAverageCount = INA260_DEFAULT_AVERAGE_COUNT;
+  float lowestDifference =
+      (INA260_DEFAULT_RAW_AVERAGE_COUNT * INA260_DEFAULT_RAW_CONVERSION_TIME) /
+      1e3;
 
   for (auto averageIterator = averageCountMap.end();
        averageIterator != averageCountMap.begin(); --averageIterator) {
