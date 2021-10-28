@@ -38,6 +38,7 @@ bool MsgPack::readCommandMessage(CommandMessage* message, CommandDocument doc) {
   } else if (command == MSG_COMMAND_SETUP) {
     message->command = Command::Setup;
     message->sampleRate = doc[MSG_KEY_SAMPLE_RATE];
+    message->outputChannel = doc[MSG_KEY_OUTPUT_CHANNEL];
   } else {
     return false;
   }

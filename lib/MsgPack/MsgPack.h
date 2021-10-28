@@ -14,6 +14,7 @@
 #define MSG_KEY_DEBUG F("debug")
 #define MSG_KEY_COMMAND F("command")
 #define MSG_KEY_SAMPLE_RATE F("sampleRate")
+#define MSG_KEY_OUTPUT_CHANNEL F("outputChannel")
 #define MSG_VAL_DEBUG true
 
 #define MSG_COMMAND_SETUP F("setup")
@@ -41,9 +42,12 @@ struct Readings {
 
 enum Command { None, Setup, Start, Stop };
 
+enum OutputChannel { USB, WebSocket, BLE };
+
 struct CommandMessage {
   Command command = Command::None;
   uint32_t sampleRate = 0;
+  OutputChannel outputChannel = OutputChannel::USB;
 };
 
 struct MsgPack {
