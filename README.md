@@ -80,4 +80,3 @@ The setup command changes parameters related to data acquisition. Currently, onl
 ## Known Issues
 
 - WiFi/BLE are not working
-- Sample rate option in "setup" command is ignored
