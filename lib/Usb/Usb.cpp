@@ -7,12 +7,12 @@ void Usb::init(bool waitForConnection) {
     delay(100);
   }
 
-  MsgPack::sendDebugMessage(DEBUG_MSG_APP_ID, Serial);
+  MsgPack::sendDebugMessage(Serial, DEBUG_MSG_APP_ID);
 }
 
 bool Usb::readCommandMessage(CommandMessage* message) {
   if (Serial.available() > 0) {
-    return MsgPack::readCommandMessage(message, Serial);
+    return MsgPack::readCommandMessage(Serial, message);
   }
 
   return false;

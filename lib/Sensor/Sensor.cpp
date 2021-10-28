@@ -49,17 +49,17 @@ void Sensor::init() {
   uint8_t retries = INA260_INIT_ATTEMPTS;
   while (retries > 0) {
     if (!sensor.begin()) {
-      MsgPack::sendDebugMessage(DEBUG_MSG_INA260_RETRY, Serial);
+      MsgPack::sendDebugMessage(Serial, DEBUG_MSG_INA260_RETRY);
       retries--;
     } else {
-      MsgPack::sendDebugMessage(DEBUG_MSG_INA260_CONNECTED, Serial);
+      MsgPack::sendDebugMessage(Serial, DEBUG_MSG_INA260_CONNECTED);
       ready = true;
       break;
     }
   }
 
   if (!ready) {
-    MsgPack::sendDebugMessage(DEBUG_MSG_INA260_FAILED, Serial);
+    MsgPack::sendDebugMessage(Serial, DEBUG_MSG_INA260_FAILED);
     delay(5000);
     POWER_ON_RESET();
   }

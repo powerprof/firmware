@@ -47,9 +47,10 @@ struct CommandMessage {
 };
 
 struct MsgPack {
-  static void sendReadings(const Readings readings, Stream& dest);
-  static void sendDebugMessage(const String message, Stream& dest);
-  static bool readCommandMessage(CommandMessage* message, Stream& src);
+  static void sendReadings(Stream& dest, const Readings readings);
+  static void sendDebugMessage(Stream& dest, const String message);
+  static void sendDebugMessage(Stream& dest, const char* format...);
+  static bool readCommandMessage(Stream& src, CommandMessage* message);
   static bool readCommandMessage(CommandMessage* message,
                                  const uint8_t* payload);
   static size_t writeReadings(const Readings readings, uint8_t* payload);

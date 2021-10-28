@@ -56,7 +56,7 @@ void loop() {
   // Check for alerts, send data over serial if available.
   auto readings = Readings();
   if (Sensor::read(&readings)) {
-    MsgPack::sendReadings(readings, Serial);
+    MsgPack::sendReadings(Serial, readings);
 
     // Toggle LED on and off
     Blinkenlight::update();

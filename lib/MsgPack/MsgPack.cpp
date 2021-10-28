@@ -1,6 +1,6 @@
 #include "MsgPack.h"
 
-void MsgPack::sendReadings(Readings readings, Stream& dest) {
+void MsgPack::sendReadings(Stream& dest, Readings readings) {
   auto doc = ReadingsDocument();
 
   doc[MSG_KEY_CURRENT] = readings.current;
@@ -11,13 +11,21 @@ void MsgPack::sendReadings(Readings readings, Stream& dest) {
   serializeMsgPack(doc, dest);
 }
 
-void MsgPack::sendDebugMessage(const String message, Stream& dest) {
+void MsgPack::sendDebugMessage(Stream& dest, const String message) {
   auto doc = MessageDocument();
 
   doc[MSG_KEY_DEBUG] = MSG_VAL_DEBUG;
   doc[MSG_KEY_MESSAGE] = message;
 
   serializeMsgPack(doc, dest);
+}
+
+void MsgPack::sendDebugMessage(Stream& dest, const char* format...) {
+  char messageBuffer[JSON_BUFFER_SIZE_MESSAGE];
+
+  sprintf(messageBuffer, format);
+
+  sendDebugMessage(dest, messageBuffer);
 }
 
 bool MsgPack::readCommandMessage(CommandMessage* message, CommandDocument doc) {
@@ -37,13 +45,12 @@ bool MsgPack::readCommandMessage(CommandMessage* message, CommandDocument doc) {
   return true;
 }
 
-bool MsgPack::readCommandMessage(CommandMessage* message, Stream& src) {
+bool MsgPack::readCommandMessage(Stream& src, CommandMessage* message) {
   auto doc = CommandDocument();
   auto result = deserializeMsgPack(doc, Serial);
 
   if (result != DeserializationError::Ok) {
-    sendDebugMessage(DEBUG_MSG_DESERIALIZE_FAILED, src);
-
+    sendDebugMessage(src, DEBUG_MSG_DESERIALIZE_FAILED);
     return false;
   }
 
