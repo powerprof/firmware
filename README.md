@@ -75,7 +75,14 @@ The stop command will tell the INA260 to stop sending measurement data over the 
 
 ## Setup
 
-The setup command changes parameters related to data acquisition. Currently, only the `sampleRate` parameter is supported. It is an integer value in Hertz which will be used to adjust the timing/averaging functions of the INA260. You should not send the setup command if the device is sending data.
+The setup command changes parameters related to data acquisition. If the setup command is received while the device is sending data, it will be ignored.
+
+### Parameters
+
+| Name          | Type     | Notes                   |
+| ------------- | -------- | ----------------------- |
+| sampleRate    | uint32_t | 100-6500Hz              |
+| outputChannel | String   | "USB", "WiFi", or "BLE" |
 
 ## Known Issues
 
