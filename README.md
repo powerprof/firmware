@@ -79,10 +79,10 @@ The setup command changes parameters related to data acquisition. If the setup c
 
 ### Parameters
 
-| Name          | Type     | Notes                   |
-| ------------- | -------- | ----------------------- |
-| sampleRate    | uint32_t | 100-6500Hz              |
-| outputChannel | String   | "USB", "WiFi", or "BLE" |
+| Name          | Type     | Notes                          |
+| ------------- | -------- | ------------------------------ |
+| sampleRate    | uint32_t | 100-6500Hz                     |
+| outputChannel | uint8_t  | 0 = USB<br>1 = WiFi<br>2 = BLE |
 
 ## Known Issues
 
