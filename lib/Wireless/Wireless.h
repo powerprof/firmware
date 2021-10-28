@@ -27,9 +27,12 @@ class Wireless {
   static WiFiMulti multi;
 #endif
   static WebSocketsServer server;
+  static bool hasMessage;
+  static CommandMessage commandMessage;
+  static void reconnect();
 
  public:
-  static void handler(uint8_t num, WStype_t type, uint8_t* payload,
+  static void handler(uint8_t num, WStype_t type, const uint8_t* payload,
                       size_t length);
   static void init();
   static bool readCommandMessage(CommandMessage* message);
