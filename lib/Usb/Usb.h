@@ -9,7 +9,7 @@
 #define SERIAL_BAUD 1e6  // 1MBit/s
 #endif
 
-#define DEBUG_MSG_APP_ID F("gufu_gud v0.3")
+#define DEBUG_MSG_APP_ID F("PowerProf v0.3")
 
 struct Usb {
   static void init(bool waitForConnection);
