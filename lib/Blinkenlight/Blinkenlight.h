@@ -4,17 +4,15 @@
 
 #if defined(ARDUINO_TEENSY36)
 #define LED_PIN 13
-#define LED_ON_STATE HIGH
 #elif defined(ESP8266)
 #define LED_PIN LED_BUILTIN
-#define LED_ON_STATE LOW
 #elif defined(ESP32)
 #define LED_PIN 2
-#define LED_ON_STATE HIGH
 #endif
-
+#define LED_ON_STATE HIGH
 #define LED_BLINK_INTERVAL 500
 
+// Adapted from FastLED source code
 class Counter {
  public:
   uint32_t prevTrigger;
