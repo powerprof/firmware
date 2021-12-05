@@ -1,11 +1,19 @@
 #pragma once
 
-#if defined(ESP8266) || defined(ESP32)
+#include <iostream>
 
-#define WIRELESS_SSID "bar"
-#define WIRELESS_PSK "wi9NNYara"
+#define ENABLE_WIFI defined(ESP8266) || defined(ESP32)
 
-#define WEBSOCKET_PORT 8081  // WS port
+#if ENABLE_WIFI
+
+#ifndef WIRELESS_SSID
+#error "Must supply WIRELESS_SSID!"
+#endif
+#ifndef WIRELESS_PSK
+#error "Must supply WIRELESS_PSK!"
+#endif
+
+#define WEBSOCKET_PORT 8081
 
 #if defined(ESP8266)
 #include <ESP8266WiFiMulti.h>

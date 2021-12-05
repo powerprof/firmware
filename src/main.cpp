@@ -8,17 +8,17 @@ void setup() {
   Blinkenlight::init();
 
   // Initialize Serial output and log hardware info.
-#if defined(ARDUINO_TEENSY)
+#if ENABLE_USB
   Usb::init(true);
 #else
   Usb::init(false);
 #endif
 
   // Initialize WiFi and/or Bluetooth on compatible devices.
-#if defined(ESP8266)
+#if ENABLE_WIFI
   Wireless::init();
-#elif defined(ESP32)
-  Wireless::init();
+#endif
+#if ENABLE_BLE
   Bluetooth::init();
 #endif
 
@@ -39,14 +39,14 @@ void loop() {
     Sensor::executeCommandMessage(command);
   }
 
-#if defined(ESP8266) || defined(ESP32)
+#if ENABLE_WIFI
   commandReceived = Wireless::readCommandMessage(&command);
   if (commandReceived) {
     Sensor::executeCommandMessage(command);
   }
 #endif
 
-#if defined(ESP32)
+#if ENABLE_BLE
   commandReceived = Bluetooth::readCommandMessage(&command);
   if (commandReceived) {
     Sensor::executeCommandMessage(command);

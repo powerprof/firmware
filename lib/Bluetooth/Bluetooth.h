@@ -1,6 +1,8 @@
 #pragma once
 
-#if defined(ESP32)
+#define ENABLE_BLE defined(ESP32)
+
+#if ENABLE_BLE
 
 #include <BLE2902.h>
 #include <BLEDevice.h>

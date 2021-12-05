@@ -3,7 +3,7 @@
 #include <Arduino.h>
 #include <MsgPack.h>
 
-#if defined(ARDUINO_TEENSY)
+#if defined(ARDUINO_TEENSY36)
 #define SERIAL_BAUD 2e6  // 2MBit/s
 #else
 #define SERIAL_BAUD 1e6  // 1MBit/s
